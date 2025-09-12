@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CrearAtraccion"
+    android:layout_margin="20dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/atrasCrearTurnos"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_back"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nombre Atraccion"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:layout_marginTop="20dp" />
+
+    <EditText
+        android:id="@+id/editTextNAtraccion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Atraccion"
+        android:inputType="textCapWords"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/btnSubirInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Crear Atraccion"
+        android:textSize="25dp"
+        android:textColor="@color/white"
+        android:layout_marginTop="50dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/colorOutline"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Atracciones"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:layout_marginTop="20dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RevListaAtraccion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"/>
+
+</LinearLayout>
