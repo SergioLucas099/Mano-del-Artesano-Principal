@@ -42,7 +42,6 @@ class SubirTextoFirebase : AppCompatActivity() {
         val atrasSubirTxt = findViewById<ImageView>(R.id.atrasSubirTxt)
         val editTextContenido = findViewById<EditText>(R.id.editTextContenido)
         val btnSubirTxt = findViewById<Button>(R.id.btnSubirTxt)
-        val btnEdit = findViewById<TextView>(R.id.btnEdit)
         RevTextos = findViewById(R.id.RevTextos)
 
         txtFecha = fechaActual
@@ -56,10 +55,6 @@ class SubirTextoFirebase : AppCompatActivity() {
             finish()
         }
 
-        btnEdit.setOnClickListener {
-            editTextContenido.setText("")
-        }
-
         btnSubirTxt.setOnClickListener {
             val texto = editTextContenido.text.toString()
 
@@ -67,6 +62,10 @@ class SubirTextoFirebase : AppCompatActivity() {
                 Toast.makeText(this, "El texto no puede estar vacío", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
+            FirebaseDatabase.getInstance()
+                .getReference("carruselTexto")
+                .setValue(texto)
 
             val databaseReference = FirebaseDatabase.getInstance().getReference("TextosGuardados")
 
