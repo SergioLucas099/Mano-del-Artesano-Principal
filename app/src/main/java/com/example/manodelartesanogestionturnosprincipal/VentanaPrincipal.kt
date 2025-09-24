@@ -59,22 +59,6 @@ class VentanaPrincipal : AppCompatActivity() {
                 }
             }
         }
-
-        //val EditText = findViewById<EditText>(R.id.editText)
-        //val Button = findViewById<Button>(R.id.Button)
-
-        /*
-        databaseReference = FirebaseDatabase.getInstance()
-            .getReference("mensajePrueba")
-         */
-
-        /*
-        Button.setOnClickListener {
-            val texto = EditText.text.toString()
-            databaseReference.setValue(texto)
-        }
-
-         */
     }
 
     public override fun onStart(){
@@ -92,5 +76,3 @@ class VentanaPrincipal : AppCompatActivity() {
         }
     }
 }
-
-//ACA VAMOS

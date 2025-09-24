@@ -31,6 +31,7 @@
         android:id="@+id/videoView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_gravity="center"
         android:layout_marginTop="50dp"/>
 
     <Button
@@ -40,6 +41,8 @@
         android:layout_gravity="center"
         android:text="Seleccionar Video"
         android:textSize="20dp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
         android:layout_marginTop="25dp"/>
 
     <Button
@@ -47,8 +50,10 @@
         android:layout_width="215dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:backgroundTint="@color/green"
         android:text="Subir Video"
         android:textSize="20dp"
+        android:textColor="@color/white"
         android:layout_marginTop="25dp"/>
 
     <ProgressBar

@@ -6,21 +6,27 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.manodelartesanogestionturnosprincipal.Adapter.AtraccionAdapter
-import com.example.manodelartesanogestionturnosprincipal.Adapter.TextosAdapter
 import com.example.manodelartesanogestionturnosprincipal.Model.AtraccionModel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import android.widget.NumberPicker
+import android.widget.TextView
 
 class CrearAtraccion : AppCompatActivity() {
 
     private lateinit var listaAtracciones : ArrayList<AtraccionModel>
+    private lateinit var numberPickerMinutes: NumberPicker
+    private lateinit var numberPickerSeconds: NumberPicker
+    private lateinit var AvisoSinAtracciones: LinearLayout
+    var totalSeconds = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +37,18 @@ class CrearAtraccion : AppCompatActivity() {
         val editTextNAtraccion = findViewById<EditText>(R.id.editTextNAtraccion)
         val btnSubirInfo = findViewById<Button>(R.id.btnSubirInfo)
         val RevListaAtraccion = findViewById<RecyclerView>(R.id.RevListaAtraccion)
+        AvisoSinAtracciones = findViewById(R.id.AvisoSinAtracciones)
+
+        numberPickerMinutes = findViewById(R.id.numberPickerMinutes)
+        numberPickerSeconds = findViewById(R.id.numberPickerSeconds)
+
+        // Configuración del picker de minutos (0 a 59)
+        numberPickerMinutes.minValue = 0
+        numberPickerMinutes.maxValue = 59
+
+        // Configuración del picker de segundos (0 a 59)
+        numberPickerSeconds.minValue = 0
+        numberPickerSeconds.maxValue = 59
 
         atrasCrearTurnos.setOnClickListener {
             val intent: Intent = Intent(this@CrearAtraccion, GestionAppTV::class.java)
@@ -41,6 +59,11 @@ class CrearAtraccion : AppCompatActivity() {
         btnSubirInfo.setOnClickListener {
             val Id = databaseReference.push().key.toString()
             val info = editTextNAtraccion.text.toString().trim() // quitamos espacios
+
+            // Obtener Tiempo
+            val minutes = numberPickerMinutes.value
+            val seconds = numberPickerSeconds.value
+            totalSeconds = (minutes * 60) + seconds
 
             if (info.isNotEmpty()) {
                 FirebaseDatabase.getInstance().reference.child("Atracciones")
@@ -54,12 +77,14 @@ class CrearAtraccion : AppCompatActivity() {
                             map["Id"] = Id
                             map["Nombre"] = info
                             map["Turno"] = 0
+                            map["Tiempo"] = totalSeconds
 
                             databaseReference.child(Id)
                                 .setValue(map)
                                 .addOnCompleteListener {
                                     Toast.makeText(this, "Nueva atracción '$info' creada con éxito", Toast.LENGTH_SHORT).show()
                                     editTextNAtraccion.setText("")
+                                    FirebaseDatabase.getInstance().reference.child("TiempoAcumulado_${info}").setValue("0")
                                 }
                                 .addOnFailureListener {
                                     Toast.makeText(this, "Error al subir la información", Toast.LENGTH_SHORT).show()
@@ -82,10 +107,13 @@ class CrearAtraccion : AppCompatActivity() {
                 override fun onDataChange(snapshot: DataSnapshot){
                     listaAtracciones.clear()
                     if (snapshot.exists()){
+                        AvisoSinAtracciones.visibility = View.GONE
                         for (Snap in snapshot.children){
                             val data = Snap.getValue(AtraccionModel::class.java)
                             listaAtracciones.add(data!!)
                         }
+                    }else{
+                        AvisoSinAtracciones.visibility = View.VISIBLE
                     }
 
                     val adapter = AtraccionAdapter(listaAtracciones)

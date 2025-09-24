@@ -4,6 +4,8 @@ import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -24,10 +26,10 @@ class AtraccionAdapter (
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val Ltexto = atraccionLista[position]
+        val LAtraccion = atraccionLista[position]
 
-        val datoId = Ltexto.Id.toString()
-        holder.nombreAtraccion.text = Ltexto.Nombre
+        val datoId = LAtraccion.Id.toString()
+        holder.nombreAtraccion.text = LAtraccion.Nombre
 
         holder.btnEliminarAtraccion.setOnClickListener {
             val builder = AlertDialog.Builder(holder.itemView.context)
@@ -45,6 +47,51 @@ class AtraccionAdapter (
             builder.setNegativeButton("Cancelar", null)
             builder.show()
         }
+
+        holder.SeleccionarAtraccion.setOnClickListener {
+            val dialogView = LayoutInflater.from(holder.itemView.context)
+                .inflate(R.layout.dialog_detalles_atraccion, null)
+
+            val txtDetNomAtrac = dialogView.findViewById<TextView>(R.id.txtDetNomAtrac)
+            txtDetNomAtrac.text = LAtraccion.Nombre
+
+            val txtDetTiempAtrac = dialogView.findViewById<EditText>(R.id.txtDetTiempAtrac)
+            txtDetTiempAtrac.setText(LAtraccion.Tiempo?.toString() ?: "")
+
+            val btnActualizarAtracc = dialogView.findViewById<Button>(R.id.btnActualizarAtracc)
+
+            val builder = androidx.appcompat.app.AlertDialog.Builder(holder.itemView.context)
+            builder.setView(dialogView)
+            val dialog = builder.create()
+
+            btnActualizarAtracc.setOnClickListener {
+                val nuevoTiempo = txtDetTiempAtrac.text.toString().toIntOrNull() ?: 0
+
+                FirebaseDatabase.getInstance()
+                    .getReference("Atracciones")
+                    .child(LAtraccion.Id.toString())
+                    .child("Tiempo")
+                    .setValue(nuevoTiempo)
+                    .addOnCompleteListener {
+                        Toast.makeText(
+                            holder.itemView.context,
+                            "Tiempo Atracción Actualizado",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        dialog.dismiss()
+                    }.addOnFailureListener {
+                        Toast.makeText(
+                            holder.itemView.context,
+                            "Error al actualizar tiempo",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+            }
+
+            dialog.show()
+        }
+
+
     }
 
     override fun getItemCount(): Int {
@@ -52,7 +99,7 @@ class AtraccionAdapter (
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
+        val SeleccionarAtraccion: ConstraintLayout = itemView.findViewById(R.id.SeleccionarAtraccion)
         val btnEliminarAtraccion: ImageView = itemView.findViewById(R.id.btnEliminarAtraccion)
         val nombreAtraccion: TextView = itemView.findViewById(R.id.nombreAtraccion)
     }
