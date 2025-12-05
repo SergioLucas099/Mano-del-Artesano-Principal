@@ -57,7 +57,8 @@ class CrearAtraccion : AppCompatActivity() {
         }
 
         btnSubirInfo.setOnClickListener {
-            val Id = databaseReference.push().key.toString()
+            Toast.makeText(this, "Función (Crear Atracción) disponible en próximas actualizaciones", Toast.LENGTH_LONG).show()
+            /*
             val info = editTextNAtraccion.text.toString().trim() // quitamos espacios
 
             // Obtener Tiempo
@@ -74,17 +75,22 @@ class CrearAtraccion : AppCompatActivity() {
                             Toast.makeText(this, "La atracción '$info' ya existe", Toast.LENGTH_SHORT).show()
                         } else {
                             val map: MutableMap<String, Any> = HashMap()
-                            map["Id"] = Id
                             map["Nombre"] = info
                             map["Turno"] = 0
                             map["Tiempo"] = totalSeconds
 
-                            databaseReference.child(Id)
+                            databaseReference.child(info)
                                 .setValue(map)
                                 .addOnCompleteListener {
+                                    FirebaseDatabase.getInstance()
+                                        .getReference("Tiempo_Acumulado")
+                                        .child("TiempoAcumulado_${info}")
+                                        .setValue("0")
+                                    FirebaseDatabase.getInstance()
+                                        .getReference("TurnosActualesAtracciones")
+                                        .child(info).setValue("0000")
                                     Toast.makeText(this, "Nueva atracción '$info' creada con éxito", Toast.LENGTH_SHORT).show()
                                     editTextNAtraccion.setText("")
-                                    FirebaseDatabase.getInstance().reference.child("TiempoAcumulado_${info}").setValue("0")
                                 }
                                 .addOnFailureListener {
                                     Toast.makeText(this, "Error al subir la información", Toast.LENGTH_SHORT).show()
@@ -97,6 +103,7 @@ class CrearAtraccion : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "No se debe dejar la casilla de texto vacía", Toast.LENGTH_SHORT).show()
             }
+             */
         }
 
         RevListaAtraccion.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)

@@ -1,6 +1,7 @@
 package com.example.manodelartesanogestionturnosprincipal.Adapter
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +11,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.manodelartesanogestionturnosprincipal.DetallesAtraccion
 import com.example.manodelartesanogestionturnosprincipal.Model.AtraccionModel
 import com.example.manodelartesanogestionturnosprincipal.R
+import com.example.manodelartesanogestionturnosprincipal.SubirTextoFirebase
 import com.google.firebase.database.FirebaseDatabase
 
 class AtraccionAdapter (
@@ -28,16 +32,21 @@ class AtraccionAdapter (
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val LAtraccion = atraccionLista[position]
 
-        val datoId = LAtraccion.Id.toString()
         holder.nombreAtraccion.text = LAtraccion.Nombre
 
         holder.btnEliminarAtraccion.setOnClickListener {
+            Toast.makeText(
+                holder.itemView.context,
+                "Función (Eliminar Atracción) disponible en próximas actualizaciones",
+                Toast.LENGTH_LONG)
+                .show()
+            /*
             val builder = AlertDialog.Builder(holder.itemView.context)
             builder.setTitle("Confirmar eliminación")
             builder.setMessage("¿Seguro deseas eliminar esta atraccion?")
             builder.setPositiveButton("Sí") { _, _ ->
                 FirebaseDatabase.getInstance().getReference("Atracciones")
-                    .child(datoId)
+                    .child(LAtraccion.Nombre.toString())
                     .removeValue().addOnCompleteListener {
                         Toast.makeText(holder.itemView.context, "Atraccion Eliminada", Toast.LENGTH_SHORT).show()
                     }.addOnFailureListener {
@@ -46,52 +55,17 @@ class AtraccionAdapter (
             }
             builder.setNegativeButton("Cancelar", null)
             builder.show()
+             */
         }
 
         holder.SeleccionarAtraccion.setOnClickListener {
-            val dialogView = LayoutInflater.from(holder.itemView.context)
-                .inflate(R.layout.dialog_detalles_atraccion, null)
 
-            val txtDetNomAtrac = dialogView.findViewById<TextView>(R.id.txtDetNomAtrac)
-            txtDetNomAtrac.text = LAtraccion.Nombre
-
-            val txtDetTiempAtrac = dialogView.findViewById<EditText>(R.id.txtDetTiempAtrac)
-            txtDetTiempAtrac.setText(LAtraccion.Tiempo?.toString() ?: "")
-
-            val btnActualizarAtracc = dialogView.findViewById<Button>(R.id.btnActualizarAtracc)
-
-            val builder = androidx.appcompat.app.AlertDialog.Builder(holder.itemView.context)
-            builder.setView(dialogView)
-            val dialog = builder.create()
-
-            btnActualizarAtracc.setOnClickListener {
-                val nuevoTiempo = txtDetTiempAtrac.text.toString().toIntOrNull() ?: 0
-
-                FirebaseDatabase.getInstance()
-                    .getReference("Atracciones")
-                    .child(LAtraccion.Id.toString())
-                    .child("Tiempo")
-                    .setValue(nuevoTiempo)
-                    .addOnCompleteListener {
-                        Toast.makeText(
-                            holder.itemView.context,
-                            "Tiempo Atracción Actualizado",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        dialog.dismiss()
-                    }.addOnFailureListener {
-                        Toast.makeText(
-                            holder.itemView.context,
-                            "Error al actualizar tiempo",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-            }
-
-            dialog.show()
+            val intent: Intent = Intent(holder.itemView.context, DetallesAtraccion::class.java)
+            intent.putExtra("Nombre", LAtraccion.Nombre.toString())
+            intent.putExtra("Tiempo", LAtraccion.Tiempo.toString())
+            intent.putExtra("Turno", LAtraccion.Turno.toString())
+            holder.itemView.context.startActivity(intent)
         }
-
-
     }
 
     override fun getItemCount(): Int {

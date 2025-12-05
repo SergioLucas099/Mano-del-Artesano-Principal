@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -11,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 class GestionAppTV : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
-    private lateinit var gestionTurnos: LinearLayout
+    private lateinit var agregarUsuario: LinearLayout
     private lateinit var subirVideos: LinearLayout
     private lateinit var subirTexto: LinearLayout
     private lateinit var crearAtraccion: LinearLayout
@@ -22,7 +23,7 @@ class GestionAppTV : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         val BotonSalir = findViewById<ImageView>(R.id.BotonSalir)
-        gestionTurnos = findViewById(R.id.gestionTurnos)
+        agregarUsuario = findViewById(R.id.agregarUsuario)
         subirVideos = findViewById(R.id.subirVideos)
         subirTexto = findViewById(R.id.subirTexto)
         crearAtraccion = findViewById(R.id.crearAtraccion)
@@ -45,10 +46,8 @@ class GestionAppTV : AppCompatActivity() {
             alertDialog.show()
         }
 
-        gestionTurnos.setOnClickListener {
-            val intent: Intent = Intent(this@GestionAppTV, GestionarTurnos::class.java)
-            startActivity(intent)
-            finish()
+        agregarUsuario.setOnClickListener {
+            Toast.makeText(this, "Proximamente...", Toast.LENGTH_SHORT).show()
         }
 
         subirVideos.setOnClickListener {

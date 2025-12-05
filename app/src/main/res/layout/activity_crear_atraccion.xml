@@ -52,7 +52,9 @@
                     android:id="@+id/editTextNAtraccion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapWords" />
+                    android:imeOptions="actionDone"
+                    android:inputType="textCapSentences"
+                    android:singleLine="true" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -89,7 +91,7 @@
                     <NumberPicker
                         android:id="@+id/numberPickerMinutes"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="100dp" />
 
                     <TextView
                         android:id="@+id/textMinutes"
@@ -117,7 +119,7 @@
                     <NumberPicker
                         android:id="@+id/numberPickerSeconds"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="100dp" />
 
                     <TextView
                         android:id="@+id/textSeconds"
