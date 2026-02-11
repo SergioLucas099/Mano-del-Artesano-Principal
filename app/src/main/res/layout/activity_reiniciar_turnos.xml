@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ReiniciarTurnos"
+    android:orientation="vertical"
+    android:layout_margin="20dp">
+
+    <ImageView
+        android:id="@+id/atrasReinicio"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_back"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Reinicio Turnos"
+        android:textSize="30dp"
+        android:textAlignment="center"
+        android:textStyle="bold"/>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RevTurnosAcumulados"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/AvisoSinTurnosAcumulados"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/nada"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No hay turnos"
+                android:textSize="30dp"
+                android:textAlignment="center"/>
+
+        </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <Button
+        android:id="@+id/btnReiniciar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reiniciar"
+        android:backgroundTint="@color/cafePrincipal"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:layout_marginTop="25dp"/>
+
+</LinearLayout>

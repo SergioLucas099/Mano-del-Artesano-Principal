@@ -16,6 +16,7 @@ class GestionAppTV : AppCompatActivity() {
     private lateinit var subirVideos: LinearLayout
     private lateinit var subirTexto: LinearLayout
     private lateinit var crearAtraccion: LinearLayout
+    private lateinit var reiniciarTurnos: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +28,7 @@ class GestionAppTV : AppCompatActivity() {
         subirVideos = findViewById(R.id.subirVideos)
         subirTexto = findViewById(R.id.subirTexto)
         crearAtraccion = findViewById(R.id.crearAtraccion)
+        reiniciarTurnos = findViewById(R.id.reiniciarTurnos)
 
         BotonSalir.setOnClickListener {
             val builder = AlertDialog.Builder(this)
@@ -65,6 +67,12 @@ class GestionAppTV : AppCompatActivity() {
 
         crearAtraccion.setOnClickListener {
             val intent: Intent = Intent(this@GestionAppTV, CrearAtraccion::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        reiniciarTurnos.setOnClickListener {
+            val intent: Intent = Intent(this@GestionAppTV, ReiniciarTurnos::class.java)
             startActivity(intent)
             finish()
         }
